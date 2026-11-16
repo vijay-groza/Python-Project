@@ -1,0 +1,153 @@
+{
+  "$defs": {
+    "LineItem": {
+      "properties": {
+        "product_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Name or model of the requested product; null if unclear",
+          "title": "Product Name"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Exact numeric quantity requested; null if not specified",
+          "title": "Quantity"
+        },
+        "unit_price": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Explicit price per unit if stated; otherwise null",
+          "title": "Unit Price"
+        }
+      },
+      "title": "LineItem",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "is_valid_po": {
+      "description": "True if the text represents a valid purchase order or procurement enquiry; False if spam, irrelevant, or gibberish",
+      "title": "Is Valid Po",
+      "type": "boolean"
+    },
+    "customer_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Company or buyer name placing the order; null if not stated",
+      "title": "Customer Name"
+    },
+    "contact_email": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Contact email address if explicitly present; null otherwise",
+      "title": "Contact Email"
+    },
+    "items": {
+      "description": "List of line items requested; empty list if none found",
+      "items": {
+        "$ref": "#/$defs/LineItem"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "required_date": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Delivery deadline normalized to YYYY-MM-DD; null if missing or vague (e.g., 'ASAP')",
+      "title": "Required Date"
+    },
+    "budget_amount": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Total numeric budget without currency symbols or commas; null if not stated",
+      "title": "Budget Amount"
+    },
+    "currency": {
+      "anyOf": [
+        {
+          "enum": [
+            "INR",
+            "USD",
+            "EUR",
+            "GBP"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "ISO currency code if budget/price is stated; null if no monetary amount exists",
+      "title": "Currency"
+    },
+    "ambiguity_notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Notes on vague deadlines, conflicting revisions, or missing critical info; null if clean",
+      "title": "Ambiguity Notes"
+    }
+  },
+  "required": [
+    "is_valid_po"
+  ],
+  "title": "PurchaseOrder",
+  "type": "object"
+}
